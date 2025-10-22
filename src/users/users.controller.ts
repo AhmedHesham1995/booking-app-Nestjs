@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Body,
-  Param,
   UseGuards,
   Request,
   Get,
@@ -15,6 +14,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UsersService } from './users.service';
+import { AddCreditsDto } from './dto/add-credits.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -26,8 +26,8 @@ export class UsersController {
   @Post('add-credits')
   @ApiOperation({ summary: 'Add credits to user' })
   @ApiResponse({ status: 200, description: 'Credits successfully added' })
-  async addCredits(@Request() req, @Body('amount') amount: number) {
-    return this.usersService.addCredits(req.user._id, amount);
+  async addCredits(@Request() req, @Body() addCreditsDto: AddCreditsDto) {
+    return this.usersService.addCredits(req.user._id, addCreditsDto.amount);
   }
 
   @Get('profile')
